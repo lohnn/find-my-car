@@ -1,7 +1,11 @@
 package se.designcoach.findmycar
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -14,23 +18,48 @@ import com.google.android.gms.maps.model.MarkerOptions
  */
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
+    companion object {
+        val ARG_CAR_POSITION = "CarPosition"
+        val MY_PERMISSIONS_REQUEST_FINE_LOCATION = 101
+    }
+
     private var mMap: GoogleMap? = null
+    private var carPosition: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val args = intent.extras
+        carPosition = args?.getParcelable<LatLng?>(ARG_CAR_POSITION)
+        if (carPosition == null) carPosition = LatLng(56.684238, 16.320195)
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_FINE_LOCATION -> {
+                mMap!!.isMyLocationEnabled = true
+            }
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(56.684238, 16.320195)
+        val fineLoactionPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        if (fineLoactionPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    Array(1, { Manifest.permission.ACCESS_FINE_LOCATION }),
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+        } else
+            mMap!!.isMyLocationEnabled = true
+
+        // Add a marker at car position and move the camera
         mMap!!.mapType = GoogleMap.MAP_TYPE_HYBRID
-        mMap!!.addMarker(MarkerOptions().position(sydney).title(""))
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 18f))
+        mMap!!.addMarker(MarkerOptions().position(carPosition).title(getString(R.string.heres_your_car)))
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(carPosition, 18f))
     }
 }
