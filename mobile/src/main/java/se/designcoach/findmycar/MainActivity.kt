@@ -58,8 +58,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             override fun carClicked(car: Car) {
                 Log.d(TAG, "Clicked ${car.name}")
 
-                mMap!!.addMarker(MarkerOptions().position(carPosition).title(getString(R.string.heres_your_car)))
-                mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(carPosition, 17.5f))
+                mMap!!.addMarker(MarkerOptions().position(car.lastSeen?.position).title(getString(R.string.heres_your_car)))
+                mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen?.position, 17.5f))
             }
         })
         recyclerView.addItemDecoration(DividerItemDecoration(this, null))
