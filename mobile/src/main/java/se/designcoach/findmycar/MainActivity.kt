@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import se.designcoach.findmycar.adapter.MainCarAdapter
 import se.designcoach.findmycar.model.BluetoothDevice
 import se.designcoach.findmycar.model.Car
 
@@ -37,7 +40,12 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //         Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        val car = Car("", emptyArray<BluetoothDevice>())
+
+        val car = Car("Golfen", emptyArray<BluetoothDevice>())
+        val cars = Array<Car>(1, { car })
+        val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = MainCarAdapter(cars)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
