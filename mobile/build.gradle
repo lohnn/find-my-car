@@ -28,12 +28,17 @@ android {
 }
 
 dependencies {
+    repositories {
+        mavenCentral()
+    }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.android.support:design:23.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
 }
 buildscript {
     ext.kotlin_version = '1.0.1-2'

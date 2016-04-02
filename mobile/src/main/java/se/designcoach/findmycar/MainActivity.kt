@@ -12,6 +12,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import se.designcoach.findmycar.model.BluetoothDevice
+import se.designcoach.findmycar.model.Car
 
 /**
  * Created by lohnn-macPro on 31/03/16.
@@ -31,10 +33,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         val args = intent.extras
         carPosition = args?.getParcelable<LatLng?>(ARG_CAR_POSITION)
         if (carPosition == null) carPosition = LatLng(56.684238, 16.320195)
-        setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        setContentView(R.layout.activity_main)
+        //         Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        val car = Car("", emptyArray<BluetoothDevice>())
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -54,12 +57,12 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(this,
                     Array(1, { Manifest.permission.ACCESS_FINE_LOCATION }),
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-        } else
+        } else {
             mMap!!.isMyLocationEnabled = true
-
+        }
         // Add a marker at car position and move the camera
         mMap!!.mapType = GoogleMap.MAP_TYPE_HYBRID
         mMap!!.addMarker(MarkerOptions().position(carPosition).title(getString(R.string.heres_your_car)))
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(carPosition, 18f))
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(carPosition, 17.5f))
     }
 }
