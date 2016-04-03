@@ -16,8 +16,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import se.designcoach.findmycar.adapter.MainCarAdapter
+import se.designcoach.findmycar.fragment.CarActionsFragment
 import se.designcoach.findmycar.model.BluetoothDevice
 import se.designcoach.findmycar.model.Car
 import se.designcoach.findmycar.model.LastSeenPosition
@@ -36,6 +36,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
     private var carPosition: LatLng? = null
+    private var carActionsFragment: CarActionsFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,16 +53,21 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         uppen.lastSeen = LastSeenPosition(Date(), carPosition!!)
         val cars = arrayOf(golfen, uppen)
 
+        val mainContent = findViewById(R.id.main_content)
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = MainCarAdapter(cars, object : MainCarAdapter.CarClickListener {
             override fun carClicked(car: Car) {
                 Log.d(TAG, "Clicked ${car.name}")
 
-                if(car.lastSeen != null){
-                    mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
-                    mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
-                }
+                carActionsFragment = CarActionsFragment.newInstance(car)
+                val ft = supportFragmentManager.beginTransaction()
+                ft.add(mainContent.id, carActionsFragment).addToBackStack(null).commit()
+
+                //                if(car.lastSeen != null){
+                //                    mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
+                //                    mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
+                //                }
             }
         })
         recyclerView.addItemDecoration(DividerItemDecoration(this, null))
@@ -73,6 +79,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 mMap!!.isMyLocationEnabled = true
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
