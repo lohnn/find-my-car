@@ -5,15 +5,20 @@
     android:layout_height="match_parent"
     android:background="#66000000"
     android:clickable="true"
+    android:fitsSystemWindows="true"
     android:padding="20dp">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="192dp">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/carActions_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:contentScrim="@android:color/holo_purple"
+            app:expandedTitleTextAppearance="@style/CollapsedAppBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -30,24 +35,29 @@
                     android:background="@drawable/oldtimer"
                     android:scaleType="fitStart" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_margin="10dp"
-                    android:shadowColor="@android:color/black"
-                    android:shadowDx="0"
-                    android:shadowDy="0"
-                    android:shadowRadius="20"
-                    android:text="Bilens namn"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/white" />
+                <!--<TextView-->
+                <!--android:id="@+id/car_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:shadowColor="@android:color/black"-->
+                <!--android:shadowDx="0"-->
+                <!--android:shadowDy="0"-->
+                <!--android:shadowRadius="20"-->
+                <!--android:text="Bilens namn"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                <!--android:textColor="@android:color/white" />-->
             </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
