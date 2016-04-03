@@ -1,56 +1,66 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
-    <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-        <!-- Toolbar is the actual app bar with text and the action items -->
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways" />
-    </android.support.design.widget.AppBarLayout>
-
-    <!-- FrameLayout can be used to insert fragments to display the content of the screen -->
-    <!-- `app:layout_behavior` is set to a pre-defined behavior for scrolling -->
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+    <LinearLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoPanelHeight="150dp"
-        sothree:umanoParallaxOffset="100dp"
-        sothree:umanoShadowHeight="4dp">
+        android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
+        <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <!-- Toolbar is the actual app bar with text and the action items -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways" />
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- FrameLayout can be used to insert fragments to display the content of the screen -->
+        <!-- `app:layout_behavior` is set to a pre-defined behavior for scrolling -->
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="se.designcoach.findmycar.MainActivity" />
+            android:gravity="bottom"
+            sothree:umanoPanelHeight="150dp"
+            sothree:umanoParallaxOffset="100dp"
+            sothree:umanoShadowHeight="4dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center|top"-->
-        <!--android:height="25dp"-->
-        <!--android:text="Här kommer dina bilar dyka upp"-->
-        <!--android:textSize="16sp" />-->
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-</LinearLayout>
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="se.designcoach.findmycar.MainActivity" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center|top"-->
+            <!--android:height="25dp"-->
+            <!--android:text="Här kommer dina bilar dyka upp"-->
+            <!--android:textSize="16sp" />-->
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    </LinearLayout>
+    <include
+        layout="@layout/fragment_car_actions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" />
+</android.support.design.widget.CoordinatorLayout>
