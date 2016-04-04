@@ -2,4 +2,6 @@
     <string name="app_name">Find my car</string>
     <string name="title_activity_maps">Map</string>
     <string name="heres_your_car">Here\'s your car!</string>
+    <string name="carActions_park">Park</string>
+    <string name="carActions_find">Find my car</string>
 </resources>

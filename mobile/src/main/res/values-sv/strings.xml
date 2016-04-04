@@ -3,4 +3,6 @@
     <string name="app_name">Find my car</string>
     <string name="title_activity_maps">Karta</string>
     <string name="heres_your_car">Här är din bil</string>
+    <string name="carActions_park">Parkera</string>
+    <string name="carActions_find">Hitta min bil</string>
 </resources>

@@ -5,20 +5,19 @@
     android:layout_height="match_parent"
     android:background="#66000000"
     android:clickable="true"
-    android:fitsSystemWindows="true"
     android:padding="20dp">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/carActions_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             app:contentScrim="@android:color/holo_purple"
-            app:expandedTitleTextAppearance="@style/CollapsedAppBar"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -57,9 +56,12 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+                app:layout_collapseMode="pin">
+
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -67,13 +69,71 @@
         android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non urna tellus. Pellentesque molestie viverra sagittis. Aenean fringilla rhoncus ex eu dapibus. Aenean placerat nunc nunc, cursus pretium sem hendrerit sed. Curabitur in orci venenatis, rutrum nunc a, auctor turpis. Nulla imperdiet libero urna, id tincidunt leo sagittis eget. Pellentesque et enim dignissim, feugiat nibh et, luctus metus. Integer fringilla justo ut condimentum lobortis. Sed auctor tristique ante vel viverra. In fringilla, justo sed ullamcorper semper, ante dui luctus purus, quis pellentesque enim nulla ac odio. Fusce viverra felis vel pharetra commodo. Fusce eleifend, lectus vel porttitor efficitur, tortor urna mattis metus, ac finibus enim elit nec diam. Nunc ac ornare dui, a tincidunt odio. Nullam et lacinia quam. Aenean laoreet nisl cursus neque malesuada, at scelerisque felis egestas.
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur at lectus non est maximus maximus. Aenean ac dolor sed dolor luctus aliquam. Suspendisse egestas turpis leo, vel pellentesque tellus gravida vel. Proin id fringilla eros, venenatis mollis urna. Cras quis sapien vel risus laoreet tempus. Sed dictum tellus sit amet nunc aliquam, rutrum pretium mi condimentum. Nulla laoreet metus tortor, id suscipit neque viverra a. Maecenas dictum, lacus fermentum feugiat vehicula, ipsum sapien viverra magna, vel lacinia lectus turpis sit amet metus. Ut imperdiet in mauris et lobortis. Sed porta nibh et enim accumsan, at blandit purus convallis. Nam tempor tellus at ultrices tincidunt. Aenean volutpat, massa imperdiet aliquam posuere, metus libero pulvinar lectus, quis consequat sem augue ut enim.
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
 
-Morbi ut suscipit orci. Pellentesque quis erat et nisi imperdiet posuere. Donec ut quam tincidunt, molestie sem quis, elementum arcu. Cras lorem augue, egestas vitae felis a, aliquet posuere neque. Integer nec enim et leo consequat consequat id vel nibh. Donec tristique erat neque, at cursus dui gravida in. Vivamus sit amet quam metus. Maecenas rhoncus posuere tortor, sed ullamcorper est mollis sed. Duis in lectus in arcu eleifend faucibus. Nulla at magna a nunc dictum laoreet sit amet at odio. Aliquam blandit bibendum purus vel pulvinar. Vivamus sed lectus id eros tincidunt hendrerit ut sed nulla. Curabitur eu odio rhoncus massa ornare pretium non in mi. Vivamus quis orci a dolor mattis vestibulum quis ac libero." />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_add_location" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toEndOf="@+id/imageView2"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:text="@string/carActions_park"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_directions" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toEndOf="@+id/imageView3"
+                    android:layout_toRightOf="@+id/imageView3"
+                    android:text="@string/carActions_find"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
