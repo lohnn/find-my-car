@@ -4,4 +4,5 @@
     <string name="heres_your_car">Here\'s your car!</string>
     <string name="carActions_park">Park</string>
     <string name="carActions_find">Find my car</string>
+    <string name="placeholder" translatable="false">Placeholder</string>
 </resources>

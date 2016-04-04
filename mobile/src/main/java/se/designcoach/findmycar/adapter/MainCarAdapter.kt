@@ -20,30 +20,31 @@ class MainCarAdapter(cars: Array<Car>, carClickListener: (Car)->Unit) : Recycler
     companion object {
         val TAG = "MainCarAdapter"
 
-        class CarViewHolder(itemView: View?, carClickListener: (Car)->Unit) : RecyclerView.ViewHolder(itemView) {
-            var carName = itemView!!.findViewById(R.id.car_name) as TextView
-            var lastSeen = itemView!!.findViewById(R.id.text_last_seen) as TextView
+        class CarViewHolder(itemView: View, carClickListener: (Car)->Unit) : RecyclerView.ViewHolder(itemView) {
+            var carName = itemView.findViewById(R.id.car_name) as TextView
+            var lastSeen = itemView.findViewById(R.id.text_last_seen) as TextView
             var car: Car? = null
 
             init {
-                itemView!!.setOnClickListener({
+                itemView.setOnClickListener({
                     carClickListener.invoke(car!!)
                 })
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CarViewHolder? {
-        val v = LayoutInflater.from(parent!!.context).
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
+        val v = LayoutInflater.from(parent.context).
                 inflate(R.layout.main_car_view, parent, false)
         val viewHolder = CarViewHolder(v, carClickListener)
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: CarViewHolder?, position: Int) {
-        holder!!.car = cars[position]
-        holder.carName.text = cars[position].name
-        holder.lastSeen.text = cars[position].lastSeen?.getTimeFormatted() ?: ""
+    override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
+        val car = cars[position]
+        holder.car = car
+        holder.carName.text = car.name
+        holder.lastSeen.text = car.lastSeen?.getTimeFormatted() ?: ""
     }
 
     override fun getItemCount(): Int {

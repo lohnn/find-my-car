@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val mainContent = findViewById(R.id.main_content)
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.addItemDecoration(DividerItemDecoration(this, null))
         recyclerView.adapter = MainCarAdapter(cars, object : (Car) -> Unit {
             override fun invoke(car: Car) {
                 Log.d(TAG, "Clicked ${car.name}")
@@ -83,7 +84,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 //                }
             }
         })
-        recyclerView.addItemDecoration(DividerItemDecoration(this, null))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
