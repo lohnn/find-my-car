@@ -13,27 +13,24 @@ import se.designcoach.findmycar.model.Car
  * Created by lohnn-macPro on 02/04/16.
  */
 
-class MainCarAdapter(cars: Array<Car>, carClickListener: CarClickListener) : RecyclerView.Adapter<MainCarAdapter.Companion.CarViewHolder>() {
+class MainCarAdapter(cars: Array<Car>, carClickListener: (Car)->Unit) : RecyclerView.Adapter<MainCarAdapter.Companion.CarViewHolder>() {
     private var cars = cars
     private var carClickListener = carClickListener
 
     companion object {
         val TAG = "MainCarAdapter"
 
-        class CarViewHolder(itemView: View?, carClickListener: CarClickListener) : RecyclerView.ViewHolder(itemView) {
+        class CarViewHolder(itemView: View?, carClickListener: (Car)->Unit) : RecyclerView.ViewHolder(itemView) {
             var carName = itemView!!.findViewById(R.id.car_name) as TextView
             var lastSeen = itemView!!.findViewById(R.id.text_last_seen) as TextView
             var car: Car? = null
 
             init {
                 itemView!!.setOnClickListener({
-                    carClickListener.carClicked(car!!)
+                    carClickListener.invoke(car!!)
                 })
             }
         }
-    }
-    interface CarClickListener {
-        fun carClicked(car: Car)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CarViewHolder? {
