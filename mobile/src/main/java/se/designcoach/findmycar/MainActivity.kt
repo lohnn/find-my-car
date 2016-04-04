@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val mainContent = findViewById(R.id.main_content)
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MainCarAdapter(cars, object : MainCarAdapter.CarClickListener {
-            override fun carClicked(car: Car) {
+        recyclerView.adapter = MainCarAdapter(cars, object : (Car) -> Unit {
+            override fun invoke(car: Car) {
                 Log.d(TAG, "Clicked ${car.name}")
 
                 carActionsFragment = CarActionsFragment.newInstance(car)
@@ -132,7 +132,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap!!.mapType = GoogleMap.MAP_TYPE_HYBRID
         val locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager).
                 getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                LatLng(locationManager.latitude, locationManager.longitude), 17.5f))
+        if (locationManager != null)
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    LatLng(locationManager.latitude, locationManager.longitude), 17.5f))
     }
 }
