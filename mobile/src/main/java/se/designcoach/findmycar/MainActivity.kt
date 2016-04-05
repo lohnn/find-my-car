@@ -25,10 +25,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import se.designcoach.findmycar.adapter.MainCarAdapter
 import se.designcoach.findmycar.dal.DataManager
 import se.designcoach.findmycar.fragment.CarActionsFragment
-import se.designcoach.findmycar.model.BluetoothDevice
 import se.designcoach.findmycar.model.Car
-import se.designcoach.findmycar.model.LastSeenPosition
-import java.util.*
 
 /**
  * Created by lohnn-macPro on 31/03/16.
@@ -41,11 +38,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val MY_PERMISSIONS_REQUEST_FINE_LOCATION = 101
     }
 
-    private var mMap: GoogleMap? = null
+    lateinit private var mainContent: View
+    lateinit private var mMap: GoogleMap
+    lateinit private var slidingUpPanel: SlidingUpPanelLayout
     private var carActionsFragment: CarActionsFragment? = null
-    private var slidingUpPanel: SlidingUpPanelLayout? = null
-    private var mainContent: View? = null
-
+    val dataManager = DataManager(this)
 
     ////////
     //
@@ -62,20 +59,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         //Add some static cars to the list
-        val carPosition = LatLng(56.684238, 16.320195)
-        val golfen = Car("Golfen", emptyArray<BluetoothDevice>())
-        val uppen = Car("Uppen", emptyArray())
-        uppen.lastSeen = LastSeenPosition(Date(), carPosition!!)
-        cars = arrayOf(golfen, uppen)
+        //        val carPosition = LatLng(56.684238, 16.320195)
+        //        val golfen = Car("Golfen", emptyArray<BluetoothDevice>())
+        //        val uppen = Car("Uppen", emptyArray())
+        //        uppen.lastSeen = LastSeenPosition(Date(), carPosition)
+        //        cars = arrayOf(golfen, uppen)
+        cars = dataManager.loadCars()
 
         //Toolbar
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         //SlidingUpPanel (car list)
-        slidingUpPanel = findViewById(R.id.sliding_layout) as SlidingUpPanelLayout?
+        slidingUpPanel = findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
 
-        mainContent = findViewById(R.id.main_content)
+        mainContent = findViewById(R.id.main_content)!!
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, null))
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (carActionsFragment == null) {
                     carActionsFragment = CarActionsFragment.newInstance(car)
                     val ft = supportFragmentManager.beginTransaction()
-                    ft.add(mainContent!!.id, carActionsFragment).addToBackStack("fragment").commit()
+                    ft.add(mainContent.id, carActionsFragment).addToBackStack("fragment").commit()
                 }
             }
         })
@@ -94,13 +92,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun carActionFind(car: Car) {
         if (car.lastSeen != null) {
-            mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
-            mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
+            mMap.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
         }
     }
 
     fun carActionPark(car: Car) {
-        DataManager(this).saveCars(cars)
+        dataManager.saveCars(cars)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -120,7 +118,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_FINE_LOCATION -> {
-                mMap!!.isMyLocationEnabled = true
+                mMap.isMyLocationEnabled = true
             }
         }
     }
@@ -130,8 +128,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             closeFragment()
             return
         }
-        if (slidingUpPanel?.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-            slidingUpPanel!!.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        if (slidingUpPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingUpPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             return
         }
         super.onBackPressed()
@@ -147,14 +145,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     Array(1, { Manifest.permission.ACCESS_FINE_LOCATION }),
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
         } else {
-            mMap!!.isMyLocationEnabled = true
+            mMap.isMyLocationEnabled = true
         }
         // Move camera to your position
-        mMap!!.mapType = GoogleMap.MAP_TYPE_HYBRID
+        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         val locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager).
                 getLastKnownLocation(LocationManager.GPS_PROVIDER)
         if (locationManager != null)
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     LatLng(locationManager.latitude, locationManager.longitude), 17.5f))
     }
 

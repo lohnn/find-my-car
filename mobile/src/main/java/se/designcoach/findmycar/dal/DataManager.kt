@@ -14,18 +14,21 @@ class DataManager constructor(context: Context) {
 
     companion object {
         val TAG = "DataManager"
+        val KEY_CARS = "Cars"
     }
 
     fun saveCars(cars: Array<Car>) {
-        //        val sharedPref = context.getSharedPreferences("", Context.MODE_PRIVATE);
-        //        val editor = sharedPref.edit();
-        //        editor.putInt("", cars);
-        //        editor.commit();
-        val json = Gson().toJson(cars)
-        Log.d(TAG, json.toString())
+        val sharedPref = context.getSharedPreferences(KEY_CARS, Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val carsJsonString = Gson().toJson(cars).toString()
+        editor.putString(KEY_CARS, carsJsonString)
+        editor.commit()
+        Log.d(TAG, carsJsonString)
     }
 
     fun loadCars(): Array<Car> {
-        return emptyArray()
+        val sharedPref = context.getSharedPreferences(KEY_CARS, Context.MODE_PRIVATE)
+        val jsonString = sharedPref.getString(KEY_CARS, "")
+        return Gson().fromJson(jsonString, Array<Car>::class.java) ?: emptyArray()
     }
 }

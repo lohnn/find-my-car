@@ -33,7 +33,7 @@ class CarActionsFragment : Fragment() {
         }
     }
 
-    var car: Car? = null
+    lateinit var car: Car
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         car = arguments.getSerializable(ARG_CAR) as Car
@@ -42,22 +42,22 @@ class CarActionsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_car_actions, container, false)
-        (view.findViewById(R.id.carActions_collapsing_toolbar) as CollapsingToolbarLayout).title = car!!.name
+        (view.findViewById(R.id.carActions_collapsing_toolbar) as CollapsingToolbarLayout).title = car.name
 
         //Fill car actions list
         val actionPark = CarAction(getString(R.string.carActions_park), resources.getDrawable(R.drawable.ic_add_location, null),
                 object : () -> Unit {
                     override fun invoke() {
-                        (activity as MainActivity).carActionPark(car!!)
+                        (activity as MainActivity).carActionPark(car)
                     }
                 })
         val carActions = arrayListOf(actionPark)
 
-        if (car!!.lastSeen != null) {
+        if (car.lastSeen != null) {
             val actionFind = CarAction(getString(R.string.carActions_find), resources.getDrawable(R.drawable.ic_directions, null),
                     object : () -> Unit {
                         override fun invoke() {
-                            (activity as MainActivity).carActionFind(car!!)
+                            (activity as MainActivity).carActionFind(car)
                             (activity as MainActivity).closeFragment()
                         }
                     })
