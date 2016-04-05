@@ -48,6 +48,7 @@ class CarActionsFragment : Fragment() {
         val actionPark = CarAction(getString(R.string.carActions_park), resources.getDrawable(R.drawable.ic_add_location, null),
                 object : () -> Unit {
                     override fun invoke() {
+                        (activity as MainActivity).carActionPark(car!!)
                     }
                 })
         val carActions = arrayListOf(actionPark)

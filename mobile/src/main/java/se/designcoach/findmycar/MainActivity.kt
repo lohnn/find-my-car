@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import se.designcoach.findmycar.adapter.MainCarAdapter
+import se.designcoach.findmycar.dal.DataManager
 import se.designcoach.findmycar.fragment.CarActionsFragment
 import se.designcoach.findmycar.model.BluetoothDevice
 import se.designcoach.findmycar.model.Car
@@ -45,6 +46,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var slidingUpPanel: SlidingUpPanelLayout? = null
     private var mainContent: View? = null
 
+
+    ////////
+    //
+    lateinit var cars: Array<Car>
+    //
+    ////////
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,7 +66,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val golfen = Car("Golfen", emptyArray<BluetoothDevice>())
         val uppen = Car("Uppen", emptyArray())
         uppen.lastSeen = LastSeenPosition(Date(), carPosition!!)
-        val cars = arrayOf(golfen, uppen)
+        cars = arrayOf(golfen, uppen)
 
         //Toolbar
         val toolbar = findViewById(R.id.toolbar) as Toolbar
@@ -89,6 +97,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
         }
+    }
+
+    fun carActionPark(car: Car) {
+        DataManager(this).saveCars(cars)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -125,7 +137,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onBackPressed()
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
+    override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         val fineLoactionPermission = ContextCompat.checkSelfPermission(this,
