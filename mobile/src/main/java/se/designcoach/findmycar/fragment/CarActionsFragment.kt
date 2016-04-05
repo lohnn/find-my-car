@@ -50,15 +50,18 @@ class CarActionsFragment : Fragment() {
                     override fun invoke() {
                     }
                 })
+        val carActions = arrayListOf(actionPark)
 
-        val actionFind = CarAction(getString(R.string.carActions_find), resources.getDrawable(R.drawable.ic_directions, null),
-                object : () -> Unit {
-                    override fun invoke() {
-                        (activity as MainActivity).carActionFind(car!!)
-                        (activity as MainActivity).closeFragment()
-                    }
-                })
-        val carActions = arrayOf(actionPark, actionFind)
+        if (car!!.lastSeen != null) {
+            val actionFind = CarAction(getString(R.string.carActions_find), resources.getDrawable(R.drawable.ic_directions, null),
+                    object : () -> Unit {
+                        override fun invoke() {
+                            (activity as MainActivity).carActionFind(car!!)
+                            (activity as MainActivity).closeFragment()
+                        }
+                    })
+            carActions.add(actionFind)
+        }
 
         val recyclerView = view.findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)

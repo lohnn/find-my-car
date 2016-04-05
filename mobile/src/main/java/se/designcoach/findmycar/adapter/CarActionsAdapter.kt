@@ -8,12 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import se.designcoach.findmycar.R
 import se.designcoach.findmycar.model.CarAction
+import java.util.*
 
 /**
  * Created by lohnn on 2016-04-04.
  */
 
-class CarActionsAdapter(carActions: Array<CarAction>) : RecyclerView.Adapter<CarActionsAdapter.Companion.CarActionViewHolder>() {
+class CarActionsAdapter(carActions: ArrayList<CarAction>) : RecyclerView.Adapter<CarActionsAdapter.Companion.CarActionViewHolder>() {
     var carActions = carActions
 
     companion object {
