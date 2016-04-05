@@ -42,6 +42,7 @@ class CarActionsAdapter(carActions: Array<CarAction>) : RecyclerView.Adapter<Car
         val carAction = carActions[position]
         holder.actionName.text = carAction.name
         holder.actionIcon.setImageDrawable(carAction.icon)
+        holder.itemClickListener = carAction.itemClickListener
     }
 
     override fun getItemCount(): Int {

@@ -6,9 +6,7 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.ActionBarActivity
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,11 +14,13 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import se.designcoach.findmycar.adapter.MainCarAdapter
 import se.designcoach.findmycar.fragment.CarActionsFragment
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     private var carActionsFragment: CarActionsFragment? = null
     private var slidingUpPanel: SlidingUpPanelLayout? = null
+    private var mainContent: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         //SlidingUpPanel (car list)
         slidingUpPanel = findViewById(R.id.sliding_layout) as SlidingUpPanelLayout?
 
-        val mainContent = findViewById(R.id.main_content)
+        mainContent = findViewById(R.id.main_content)
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, null))
@@ -74,16 +75,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun invoke(car: Car) {
                 Log.d(TAG, "Clicked ${car.name}")
 
-                carActionsFragment = CarActionsFragment.newInstance(car)
-                val ft = supportFragmentManager.beginTransaction()
-                ft.add(mainContent!!.id, carActionsFragment).addToBackStack(null).commit()
-
-                //                if(car.lastSeen != null){
-                //                    mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
-                //                    mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
-                //                }
+                if (carActionsFragment == null) {
+                    carActionsFragment = CarActionsFragment.newInstance(car)
+                    val ft = supportFragmentManager.beginTransaction()
+                    ft.add(mainContent!!.id, carActionsFragment).addToBackStack("fragment").commit()
+                }
             }
         })
+    }
+
+    fun carActionFind(car: Car) {
+        if (car.lastSeen != null) {
+            mMap!!.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
+            mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
+        when (item?.itemId) {
             R.id.action_settings -> {
                 Log.d(TAG, "Want to open settings")
             }
@@ -109,6 +114,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onBackPressed() {
+        if (carActionsFragment != null) {
+            closeFragment()
+            return
+        }
         if (slidingUpPanel?.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
             slidingUpPanel!!.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             return
@@ -135,5 +144,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (locationManager != null)
             mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     LatLng(locationManager.latitude, locationManager.longitude), 17.5f))
+    }
+
+    fun closeFragment() {
+        val manager = supportFragmentManager;
+        val trans = manager.beginTransaction();
+        trans.remove(carActionsFragment);
+        trans.commit();
+        manager.popBackStack();
+        carActionsFragment = null
     }
 }
