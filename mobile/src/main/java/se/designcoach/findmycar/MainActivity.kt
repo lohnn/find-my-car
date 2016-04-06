@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -80,7 +81,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setSupportActionBar(toolbar)
 
         //SlidingUpPanel (car list)
+        val fab = findViewById(R.id.fab_create_car) as FloatingActionButton
         slidingUpPanel = findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
+        slidingUpPanel.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {
+            }
+
+            override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+                if(newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    fab.show()
+                }else{
+                    fab.hide()
+                }
+            }
+        })
 
         mainContent = findViewById(R.id.main_content)!!
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
@@ -131,10 +145,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (marker == null) {
             marker = map.addMarker(MarkerOptions().position(position).title(title))
         }
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 17.5f))
         marker!!.position = position
         marker!!.title = title
         marker!!.showInfoWindow()
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 17.5f))
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
