@@ -26,6 +26,8 @@ import se.designcoach.findmycar.adapter.MainCarAdapter
 import se.designcoach.findmycar.dal.DataManager
 import se.designcoach.findmycar.fragment.CarActionsFragment
 import se.designcoach.findmycar.model.Car
+import se.designcoach.findmycar.model.LastSeenPosition
+import java.util.*
 
 /**
  * Created by lohnn-macPro on 31/03/16.
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     ////////
     //
-    lateinit var cars: Array<Car>
+    lateinit var cars: ArrayList<Car>
     //
     ////////
 
@@ -60,12 +62,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Add some static cars to the list
         //        val carPosition = LatLng(56.684238, 16.320195)
-        //        val golfen = Car("Golfen", emptyArray<BluetoothDevice>())
+        //        val golfen = Car("Golfen", emptyArray())
         //        val uppen = Car("Uppen", emptyArray())
         //        uppen.lastSeen = LastSeenPosition(Date(), carPosition)
         //        cars = arrayOf(golfen, uppen)
         cars = dataManager.loadCars()
-
+        if (cars.isEmpty()) {
+            Log.d(TAG, "No cars saved, creating one")
+            val uppen = Car("Uppen", emptyArray())
+            uppen.lastSeen = LastSeenPosition(LatLng(56.684238, 16.320195))
+            cars.add(uppen)
+        }
         //Toolbar
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
@@ -98,7 +105,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun carActionPark(car: Car) {
-        dataManager.saveCars(cars)
+        val currentPosition = getCurrentPosition()
+        if (currentPosition != null) {
+            car.lastSeen = LastSeenPosition(currentPosition)
+            dataManager.saveCars(cars)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -135,6 +146,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onBackPressed()
     }
 
+    private fun getCurrentPosition(): LatLng? {
+        val locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager).
+                getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if (locationManager != null)
+            return LatLng(locationManager.latitude, locationManager.longitude)
+        return null
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -149,11 +168,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         // Move camera to your position
         mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
-        val locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager).
-                getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (locationManager != null)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    LatLng(locationManager.latitude, locationManager.longitude), 17.5f))
+        val currentPosition = getCurrentPosition()
+        if (currentPosition != null)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17.5f))
     }
 
     fun closeFragment() {

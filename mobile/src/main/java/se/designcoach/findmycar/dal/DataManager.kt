@@ -3,7 +3,9 @@ package se.designcoach.findmycar.dal
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import se.designcoach.findmycar.model.Car
+import java.util.*
 
 /**
  * Created by lohnn-macPro on 05/04/16.
@@ -17,7 +19,7 @@ class DataManager constructor(context: Context) {
         val KEY_CARS = "Cars"
     }
 
-    fun saveCars(cars: Array<Car>) {
+    fun saveCars(cars: ArrayList<Car>) {
         val sharedPref = context.getSharedPreferences(KEY_CARS, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         val carsJsonString = Gson().toJson(cars).toString()
@@ -26,9 +28,11 @@ class DataManager constructor(context: Context) {
         Log.d(TAG, carsJsonString)
     }
 
-    fun loadCars(): Array<Car> {
+    fun loadCars(): ArrayList<Car> {
         val sharedPref = context.getSharedPreferences(KEY_CARS, Context.MODE_PRIVATE)
         val jsonString = sharedPref.getString(KEY_CARS, "")
-        return Gson().fromJson(jsonString, Array<Car>::class.java) ?: emptyArray()
+        Log.d(TAG, "Opening: $jsonString")
+        val type = object: TypeToken<List<Car>>(){}.type
+        return Gson().fromJson(jsonString, type) ?: ArrayList()
     }
 }

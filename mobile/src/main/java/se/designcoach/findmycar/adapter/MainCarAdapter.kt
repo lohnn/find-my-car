@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import se.designcoach.findmycar.R
 import se.designcoach.findmycar.model.Car
+import java.util.*
 
 /**
  * Created by lohnn-macPro on 02/04/16.
  */
 
-class MainCarAdapter(cars: Array<Car>, carClickListener: (Car)->Unit) : RecyclerView.Adapter<MainCarAdapter.Companion.CarViewHolder>() {
+class MainCarAdapter(cars: ArrayList<Car>, carClickListener: (Car)->Unit) : RecyclerView.Adapter<MainCarAdapter.Companion.CarViewHolder>() {
     private var cars = cars
     private var carClickListener = carClickListener
 

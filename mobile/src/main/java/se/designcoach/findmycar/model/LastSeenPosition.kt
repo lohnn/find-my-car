@@ -8,7 +8,7 @@ import java.util.*
  * Created by lohnn on 2016-04-02.
  */
 
-class LastSeenPosition(time: Date, position: LatLng) : Serializable {
+class LastSeenPosition(position: LatLng, time: Date = Date()) : Serializable {
     val time = time
     val position = position
 

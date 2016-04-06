@@ -49,6 +49,7 @@ class CarActionsFragment : Fragment() {
                 object : () -> Unit {
                     override fun invoke() {
                         (activity as MainActivity).carActionPark(car)
+                        (activity as MainActivity).closeFragment()
                     }
                 })
         val carActions = arrayListOf(actionPark)
