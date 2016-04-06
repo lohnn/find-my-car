@@ -82,15 +82,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //SlidingUpPanel (car list)
         val fab = findViewById(R.id.fab_create_car) as FloatingActionButton
+        fab.setOnClickListener {
+            //TODO: Add functionality for creating a car
+            Log.d(TAG, "Create a new car now!")
+        }
+
         slidingUpPanel = findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
-        slidingUpPanel.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
+        slidingUpPanel.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
             }
-
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-                if(newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     fab.show()
-                }else{
+                } else {
                     fab.hide()
                 }
             }
@@ -154,7 +158,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_FINE_LOCATION -> {
-                map.isMyLocationEnabled = true
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    //TODO: Implement something here to tell user they need it
+                    Log.d(TAG, "Too bad, you really need location to use this app!")
+                } else {
+                    map.isMyLocationEnabled = true
+                }
             }
         }
     }
