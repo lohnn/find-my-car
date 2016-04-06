@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import se.designcoach.findmycar.adapter.MainCarAdapter
@@ -41,8 +42,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     lateinit private var mainContent: View
-    lateinit private var mMap: GoogleMap
+    lateinit private var map: GoogleMap
     lateinit private var slidingUpPanel: SlidingUpPanelLayout
+    private var marker: Marker? = null
     private var carActionsFragment: CarActionsFragment? = null
     val dataManager = DataManager(this)
 
@@ -99,8 +101,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun carActionFind(car: Car) {
         if (car.lastSeen != null) {
-            mMap.addMarker(MarkerOptions().position(car.lastSeen!!.position).title(getString(R.string.heres_your_car)))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(car.lastSeen!!.position, 17.5f))
+            placeMarker(car.lastSeen!!.position, car.name)
         }
     }
 
@@ -126,10 +127,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun placeMarker(position: LatLng, title: String) {
+        if (marker == null) {
+            marker = map.addMarker(MarkerOptions().position(position).title(title))
+        }
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 17.5f))
+        marker!!.position = position
+        marker!!.title = title
+        marker!!.showInfoWindow()
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_FINE_LOCATION -> {
-                mMap.isMyLocationEnabled = true
+                map.isMyLocationEnabled = true
             }
         }
     }
@@ -155,7 +166,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        map = googleMap
 
         val fineLoactionPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -164,13 +175,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     Array(1, { Manifest.permission.ACCESS_FINE_LOCATION }),
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
         } else {
-            mMap.isMyLocationEnabled = true
+            map.isMyLocationEnabled = true
         }
         // Move camera to your position
-        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+        map.mapType = GoogleMap.MAP_TYPE_HYBRID
         val currentPosition = getCurrentPosition()
         if (currentPosition != null)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17.5f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17.5f))
     }
 
     fun closeFragment() {
