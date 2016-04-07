@@ -31,26 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/oldtimer"
                     android:scaleType="fitStart" />
-
-                <!--<TextView-->
-                <!--android:id="@+id/car_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_margin="10dp"-->
-                <!--android:shadowColor="@android:color/black"-->
-                <!--android:shadowDx="0"-->
-                <!--android:shadowDy="0"-->
-                <!--android:shadowRadius="20"-->
-                <!--android:text="Bilens namn"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                <!--android:textColor="@android:color/white" />-->
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar

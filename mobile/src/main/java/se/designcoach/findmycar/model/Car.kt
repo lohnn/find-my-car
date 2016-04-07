@@ -10,4 +10,5 @@ class Car(name: String, bluetoothDevices: Array<BluetoothDevice>) : Serializable
     var name: String = name
     var bluetoothDevices = bluetoothDevices
     var lastSeen: LastSeenPosition? = null
+    var carImage: String? = null
 }

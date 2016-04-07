@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import se.designcoach.findmycar.DividerItemDecoration
 import se.designcoach.findmycar.MainActivity
 import se.designcoach.findmycar.R
@@ -42,6 +44,14 @@ class CarActionsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_car_actions, container, false)
+
+        //TODO: add v7 palette library for setting toolbar color
+        val carImageView = view.findViewById(R.id.imageView) as ImageView
+        Glide.with(this)
+                .load(R.drawable.oldtimer)
+                .centerCrop()
+                .into(carImageView)
+
         (view.findViewById(R.id.carActions_collapsing_toolbar) as CollapsingToolbarLayout).title = car.name
 
         //Fill car actions list
