@@ -14,6 +14,7 @@ import se.designcoach.findmycar.DividerItemDecoration
 import se.designcoach.findmycar.MainActivity
 import se.designcoach.findmycar.R
 import se.designcoach.findmycar.adapter.CarActionsAdapter
+import se.designcoach.findmycar.dal.DataManager
 import se.designcoach.findmycar.model.Car
 import se.designcoach.findmycar.model.CarAction
 
@@ -23,12 +24,12 @@ import se.designcoach.findmycar.model.CarAction
 
 class CarActionsFragment : Fragment() {
     companion object {
-        val ARG_CAR = "carName"
-        fun newInstance(car: Car): CarActionsFragment {
+        val ARG_CAR_ID = "carName"
+        fun newInstance(carId: Int): CarActionsFragment {
             val myFragment = CarActionsFragment();
 
             val args = Bundle();
-            args.putSerializable(ARG_CAR, car);
+            args.putInt(ARG_CAR_ID, carId);
             myFragment.arguments = args;
 
             return myFragment;
@@ -38,7 +39,7 @@ class CarActionsFragment : Fragment() {
     lateinit var car: Car
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        car = arguments.getSerializable(ARG_CAR) as Car
+        car = DataManager.cars[arguments.getInt(ARG_CAR_ID)]
         setHasOptionsMenu(true)
     }
 

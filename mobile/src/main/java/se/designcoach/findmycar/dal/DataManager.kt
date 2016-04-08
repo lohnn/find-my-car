@@ -17,6 +17,7 @@ class DataManager constructor(context: Context) {
     companion object {
         val TAG = "DataManager"
         val KEY_CARS = "Cars"
+        var cars = ArrayList<Car>()
     }
 
     fun saveCars(cars: ArrayList<Car>) {
@@ -33,6 +34,7 @@ class DataManager constructor(context: Context) {
         val jsonString = sharedPref.getString(KEY_CARS, "")
         Log.d(TAG, "Opening: $jsonString")
         val type = object: TypeToken<List<Car>>(){}.type
-        return Gson().fromJson(jsonString, type) ?: ArrayList()
+        cars = Gson().fromJson(jsonString, type) ?: ArrayList()
+        return cars
     }
 }

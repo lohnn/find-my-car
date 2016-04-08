@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit private var slidingUpPanel: SlidingUpPanelLayout
     private var marker: Marker? = null
     private var carActionsFragment: CarActionsFragment? = null
-    val dataManager = DataManager(this)
+    lateinit var dataManager: DataManager
 
     ////////
     //
@@ -58,17 +58,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        dataManager = DataManager(applicationContext)
+
         setContentView(R.layout.activity_main)
         //Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         //Add some static cars to the list
-        //        val carPosition = LatLng(56.684238, 16.320195)
-        //        val golfen = Car("Golfen", emptyArray())
-        //        val uppen = Car("Uppen", emptyArray())
-        //        uppen.lastSeen = LastSeenPosition(Date(), carPosition)
-        //        cars = arrayOf(golfen, uppen)
         cars = dataManager.loadCars()
         if (cars.isEmpty()) {
             Log.d(TAG, "No cars saved, creating one")
@@ -91,6 +88,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         slidingUpPanel.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
             }
+
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     fab.show()
@@ -104,12 +102,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, null))
-        recyclerView.adapter = MainCarAdapter(cars, object : (Car) -> Unit {
-            override fun invoke(car: Car) {
-                Log.d(TAG, "Clicked ${car.name}")
+        recyclerView.adapter = MainCarAdapter(object : (Int) -> Unit {
+            override fun invoke(carId: Int) {
+                Log.d(TAG, "Clicked ${DataManager.cars[carId]}")
 
                 if (carActionsFragment == null) {
-                    carActionsFragment = CarActionsFragment.newInstance(car)
+                    carActionsFragment = CarActionsFragment.newInstance(carId)
                     val ft = supportFragmentManager.beginTransaction()
                     ft.add(mainContent.id, carActionsFragment).addToBackStack("fragment").commit()
                 }
