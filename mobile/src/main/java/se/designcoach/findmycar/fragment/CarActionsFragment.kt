@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import se.designcoach.findmycar.DividerItemDecoration
-import se.designcoach.findmycar.MainActivity
+import se.designcoach.findmycar.activity.MainActivity
 import se.designcoach.findmycar.R
 import se.designcoach.findmycar.adapter.CarActionsAdapter
 import se.designcoach.findmycar.dal.DataManager

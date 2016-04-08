@@ -1,7 +1,8 @@
-package se.designcoach.findmycar
+package se.designcoach.findmycar.activity
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import se.designcoach.findmycar.DividerItemDecoration
+import se.designcoach.findmycar.R
 import se.designcoach.findmycar.adapter.MainCarAdapter
 import se.designcoach.findmycar.dal.DataManager
 import se.designcoach.findmycar.fragment.CarActionsFragment
@@ -81,6 +84,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val fab = findViewById(R.id.fab_create_car) as FloatingActionButton
         fab.setOnClickListener {
             //TODO: Add functionality for creating a car
+            val editCarIntent = Intent(applicationContext, EditCarActivity::class.java)
+            startActivity(editCarIntent)
             Log.d(TAG, "Create a new car now!")
         }
 

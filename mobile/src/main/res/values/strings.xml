@@ -5,4 +5,5 @@
     <string name="carActions_park">Park</string>
     <string name="carActions_find">Find my car</string>
     <string name="placeholder" translatable="false">Placeholder</string>
+    <string name="title_activity_edit_car">Edit car</string>
 </resources>
