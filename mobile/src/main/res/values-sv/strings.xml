@@ -7,4 +7,5 @@
     <string name="carActions_find">Hitta min bil</string>
     <string name="title_activity_edit_car">Ändra bilen</string>
     <string name="image_of_car">Bild på bil</string>
+    <string name="placeholder_car_name">Bilens namn</string>
 </resources>

@@ -32,6 +32,17 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/image_of_car"
                     android:scaleType="fitStart" />
+
+                <EditText
+                    android:id="@+id/car_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/placeholder_car_name"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -49,6 +60,5 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v4.widget.NestedScrollView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
