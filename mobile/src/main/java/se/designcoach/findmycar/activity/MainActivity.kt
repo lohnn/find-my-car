@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit private var mainContent: View
     lateinit private var map: GoogleMap
     lateinit private var slidingUpPanel: SlidingUpPanelLayout
+    lateinit private var fab: FloatingActionButton
     private var marker: Marker? = null
     private var carActionsFragment: CarActionsFragment? = null
     lateinit var dataManager: DataManager
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setSupportActionBar(toolbar)
 
         //SlidingUpPanel (car list)
-        val fab = findViewById(R.id.fab_create_car) as FloatingActionButton
+        fab = findViewById(R.id.fab_create_car) as FloatingActionButton
         fab.setOnClickListener {
             //TODO: Add functionality for creating a car
             val editCarIntent = Intent(applicationContext, EditCarActivity::class.java)
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     carActionsFragment = CarActionsFragment.newInstance(carId)
                     val ft = supportFragmentManager.beginTransaction()
                     ft.add(mainContent.id, carActionsFragment).addToBackStack("fragment").commit()
+                    fab.hide()
                 }
             }
         })
@@ -217,5 +219,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         trans.commit();
         manager.popBackStack();
         carActionsFragment = null
+        if (slidingUpPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
+            fab.show()
     }
 }
