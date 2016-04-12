@@ -32,6 +32,19 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/image_of_car"
                     android:scaleType="fitStart" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="none">
 
                 <EditText
                     android:id="@+id/car_name"
@@ -40,18 +53,12 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
+                    android:background="#af000000"
                     android:hint="@string/placeholder_car_name"
+                    android:padding="@dimen/normal_padding"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/white" />
             </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin">
-
-            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -60,5 +67,19 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.widget.NestedScrollView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor volutpat elit, ut rhoncus quam rutrum in. Etiam sagittis sit amet nisi vitae accumsan. Maecenas laoreet ante in velit accumsan sagittis. Donec dignissim sit amet urna tincidunt rhoncus. Aliquam malesuada finibus mi ut venenatis. Aliquam ullamcorper faucibus enim eu congue. Duis placerat, odio eu accumsan malesuada, massa quam ullamcorper leo, nec vestibulum arcu nisi eget lorem. Nullam iaculis ut arcu sed elementum. Mauris bibendum sagittis molestie. Aliquam feugiat eget lectus eu placerat. Duis vitae semper ante, nec gravida neque. Donec enim felis, gravida eu diam nec, faucibus suscipit ante.
+
+Integer laoreet ullamcorper ipsum quis maximus. Duis ultricies magna sit amet magna lobortis, ut varius purus sollicitudin. Maecenas nec sapien est. Fusce non mollis metus. Integer ut accumsan tellus. Cras non fringilla velit. Duis vel dictum eros. Mauris rhoncus egestas nisl, quis condimentum libero viverra id. Suspendisse potenti. In eleifend mi ac blandit viverra. In facilisis, erat in interdum bibendum, magna urna sagittis augue, vitae iaculis erat nisl eget augue.
+
+Donec tincidunt volutpat velit, non sodales quam porta nec. Vestibulum eleifend pretium lacus, eu pellentesque est semper vitae. Nulla odio est, dignissim eu lorem a, fringilla dapibus enim. Etiam ut varius purus. Integer convallis diam a est fringilla tempus. Aliquam hendrerit imperdiet placerat. Proin fermentum diam id ullamcorper venenatis. Mauris nec diam eu diam vulputate pellentesque. Pellentesque congue pellentesque ante, tristique molestie sapien ornare a. Vestibulum ac interdum ante. Vivamus dictum quam mi, posuere auctor velit viverra a. Suspendisse rhoncus lorem ac nibh pharetra fringilla. Duis imperdiet odio quis efficitur suscipit. Etiam consectetur id sem et condimentum. Nulla sed enim tempus, sagittis ipsum at, faucibus justo. Etiam sollicitudin tincidunt nisl ac venenatis.
+
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec vitae porttitor tellus. Morbi in orci non justo commodo volutpat. Nunc rhoncus velit in felis suscipit efficitur. Phasellus dapibus maximus justo, sit amet feugiat arcu bibendum eget. Integer auctor mi viverra, dictum lorem semper, consequat sem. Duis quis eleifend libero. Sed pretium nunc neque, non scelerisque tellus dapibus id. Nulla at erat accumsan, scelerisque justo luctus, vestibulum leo.
+
+Aliquam egestas felis quis dolor sagittis sollicitudin. Cras porta augue quis velit lacinia molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nibh ac dui laoreet vestibulum. Nam commodo mauris ac vulputate dapibus. Quisque nec ornare ligula. Nunc convallis purus est. Nulla et quam sed neque vestibulum hendrerit ac eu leo. Pellentesque purus arcu, rutrum ut magna sed, malesuada ultricies nisl. Duis nisl magna, gravida ac est sed, imperdiet pellentesque leo. Maecenas mattis consectetur nisl, ac vehicula tellus cursus at. Nullam venenatis dolor orci. Morbi pharetra turpis ut velit vulputate, sed posuere diam sollicitudin." />
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -44,9 +44,9 @@ class EditCarActivity : AppCompatActivity() {
                                 collapsingToolbar.setBackgroundColor(contentScrimColor)
                                 collapsingToolbar.setStatusBarScrimColor(contentScrimColor)
                                 collapsingToolbar.setContentScrimColor(contentScrimColor)
-                                if (swatch != null) {
-                                    editText.setTextColor(swatch.bodyTextColor)
-                                }
+//                                if (swatch != null) {
+//                                    editText.setTextColor(swatch.bodyTextColor)
+//                                }
                             }
                         return false
                     }
